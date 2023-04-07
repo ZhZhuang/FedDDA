@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#SBATCH -J fed-ddim
+#SBATCH -p gpu1
+#SBATCH -N 1
+#SBATCH -n 12
+#SBATCH --gres=gpu:1
+#SBATCH -o result/output.log
+#SBATCH -e result/error.log
+
+
+cd  $SLURM_SUBMIT_DIR
+NP=$SLURM_JOB_GPUS
+
+CUDA_VISIBLE_DEVICES=$NP python main.py > result/log.log

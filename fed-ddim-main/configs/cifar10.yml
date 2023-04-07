@@ -1,0 +1,59 @@
+data:
+    dataset: "CIFAR10"
+    image_size: 32
+    channels: 3
+    logit_transform: false
+    uniform_dequantization: false
+    gaussian_dequantization: false
+    random_flip: true
+    rescaled: true
+    num_workers: 14 # 4
+
+model:
+    type: "simple"
+    in_channels: 3
+    out_ch: 3
+    ch: 128
+    ch_mult: [1, 2, 2, 2]
+    num_res_blocks: 2
+    attn_resolutions: [16, ]    # [2,] ?
+    dropout: 0.1
+    var_type: fixedlarge
+    ema_rate: 0.9999
+    ema: False  # True
+    resamp_with_conv: True
+
+diffusion:
+    beta_schedule: linear
+    beta_start: 0.0001
+    beta_end: 0.02
+    num_diffusion_timesteps: 1000
+
+sampling:
+    batch_size: 64
+    last_only: True
+#    ckpt_id: ckpt_round_99
+
+optim:
+    weight_decay: 0.000
+    optimizer: "Adam"   # "SGD" ，  收敛性太差
+    lr: 0.0002 # 0.0002 # 200epich后调整了 lr  0.0005
+    beta1: 0.9
+    amsgrad: false
+    eps: 0.00000001
+    grad_clip: 1.0  # ？
+
+training:
+    batch_size: 64      # 128
+    n_epochs: 1         # 改变含义为 本地训练
+    n_iters: 5000000
+    snapshot_freq: 5000
+    validation_freq: 2000
+
+fed:
+    n_clients: 10
+    dirichlet: false
+    alpha: 0.1
+    num_class: 2      # 当 dirichlet 为 False 时有效，
+    round: 400
+    save_interval: 50

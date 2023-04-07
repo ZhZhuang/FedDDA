@@ -1,0 +1,3 @@
+einops==0.4.1
+einops_exts==0.0.3
+lmdb==1.3.0
